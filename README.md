@@ -1,0 +1,2 @@
+# ReviewLab---Plataforma-Colaborativa-de-Portafolios-Creativos
+ReviewLab es una solución tecnológica diseñada para abordar la falta de retroalimentación estructurada en las plataformas de contenido visual actuales. Este sistema permite a los creadores gestionar portafolios digitales, recibir evaluaciones basadas en criterios objetivos y colaborar mediante propuestas de mejora técnica y versiones alternativas.
