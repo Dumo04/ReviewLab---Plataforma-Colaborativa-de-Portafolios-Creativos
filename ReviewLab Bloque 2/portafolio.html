@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Portafolio - ReviewLab</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===== BASE (de styles.css) ===== */
+      body {
+        background: #f5f6fa;
+        font-family: "Segoe UI", sans-serif;
+        color: #1a1a2e;
+      }
+      footer {
+        background: #020617;
+        padding: 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+      }
+      .btn-main {
+        background: linear-gradient(135deg, #6a00f4, #a100ff);
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        color: white;
+        padding: 12px 24px;
+        transition: opacity 0.3s;
+        cursor: pointer;
+      }
+      .btn-main:hover { opacity: 0.88; color: white; }
+
+      .form-control {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        transition: 0.2s;
+        color: #1a1a2e;
+        background: white;
+      }
+      .form-control:focus {
+        border-color: #a100ff;
+        box-shadow: 0 0 0 2px rgba(161,0,255,0.15);
+        outline: none;
+      }
+      .form-label {
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      /* ===== NAVBAR ===== */
+      .navbar-reviewlab {
+        background: linear-gradient(135deg, #0741ad, #2fdcb6);
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .navbar-reviewlab .brand {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .navbar-reviewlab .nav-links { display: flex; gap: 8px; }
+      .navbar-reviewlab .nav-links a {
+        color: white;
+        border: 1px solid rgba(255,255,255,0.6);
+        border-radius: 30px;
+        padding: 5px 16px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .navbar-reviewlab .nav-links a:hover { background: rgba(255,255,255,0.15); }
+
+      /* ===== PAGE HEADER ===== */
+      .page-header {
+        background: linear-gradient(135deg, #0741ad, #2fdcb6);
+        padding: 48px 0 32px;
+        text-align: center;
+        color: white;
+      }
+      .page-header h1 { font-size: 2rem; font-weight: 700; color: white; margin-bottom: 6px; }
+      .page-header p  { opacity: 0.9; color: white; margin: 0; }
+
+      /* ===== SECCIÓN FORM ===== */
+      .section-form { background: #f5f6fa; padding: 48px 0; }
+
+      .form-card {
+        background: white;
+        border-radius: 18px;
+        padding: 32px;
+        box-shadow: 0 4px 20px rgba(106,0,244,0.08);
+      }
+
+      .section-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #6a00f4;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-title::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 18px;
+        background: linear-gradient(135deg, #6a00f4, #a100ff);
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+
+      /* Preview imagen */
+      #imgPreview {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: none;
+        margin-top: 10px;
+        border: 2px dashed #d8bfff;
+      }
+      #imgPreview.visible { display: block; border: none; }
+
+      /* ===== SECCIÓN PROYECTOS ===== */
+      .section-projects { background: #eef0f8; padding: 48px 0 64px; }
+
+      .projects-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .projects-count {
+        font-size: 0.83rem;
+        color: #888;
+        background: white;
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-weight: 500;
+      }
+
+      /* ===== PROJECT CARD ===== */
+      .project-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        transition: transform 0.25s, box-shadow 0.25s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 28px rgba(106,0,244,0.13);
+      }
+      .project-card__img {
+        width: 100%;
+        height: 175px;
+        background: linear-gradient(135deg, #6a00f4, #a100ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .project-card__img img {
+        width: 100%;
+        height: 175px;
+        object-fit: cover;
+        display: block;
+      }
+      .project-card__placeholder { font-size: 2.2rem; opacity: 0.45; color: white; }
+      .project-card__body {
+        padding: 16px 18px 18px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .project-card__category {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #7b00e0;
+        background: rgba(161,0,255,0.09);
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-bottom: 8px;
+        width: fit-content;
+      }
+      .project-card__title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 6px;
+        line-height: 1.35;
+      }
+      .project-card__desc {
+        font-size: 0.875rem;
+        color: #666;
+        line-height: 1.5;
+        flex: 1;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+      .project-card__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #f0f0f0;
+      }
+      .project-card__date { font-size: 0.75rem; color: #aaa; }
+      .project-card__delete {
+        background: none;
+        border: none;
+        color: #bbb;
+        font-size: 0.78rem;
+        cursor: pointer;
+        padding: 3px 8px;
+        border-radius: 6px;
+        transition: color 0.2s, background 0.2s;
+      }
+      .project-card__delete:hover {
+        color: #c62828;
+        background: rgba(198,40,40,0.08);
+      }
+
+      /* ===== ESTADO VACÍO ===== */
+      .empty-state { text-align: center; padding: 60px 24px; }
+      .empty-state__icon { font-size: 2.8rem; display: block; margin-bottom: 12px; opacity: 0.35; }
+      .empty-state__text { font-size: 1rem; color: #999; line-height: 1.6; }
+
+      /* ===== TOAST ===== */
+      .toast-reviewlab {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        background: linear-gradient(135deg, #6a00f4, #a100ff);
+        color: white;
+        padding: 12px 22px;
+        border-radius: 30px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        box-shadow: 0 6px 20px rgba(106,0,244,0.3);
+        z-index: 9999;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.28s, transform 0.28s;
+        pointer-events: none;
+      }
+      .toast-reviewlab.show { opacity: 1; transform: translateY(0); }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar-reviewlab">
+      <div class="container d-flex align-items-center justify-content-between">
+        <a class="brand" href="index.html">
+          ReviewLab
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Inicio</a>
+          <a href="feedback.html">Feedback</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+      <div class="container">
+        <h1>Mi Portafolio</h1>
+        <p>Gestiona y muestra tus proyectos creativos</p>
+      </div>
+    </header>
+
+    <!-- ================================================
+         FUNCIONALIDAD 3 — CREAR PROYECTO
+    ================================================= -->
+    <section class="section-form" id="crear-proyecto">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="form-card">
+              <p class="section-title">Crear nuevo proyecto</p>
+
+              <form id="projectForm" novalidate>
+
+                <div class="mb-3">
+                  <label for="titulo" class="form-label">
+                    Título <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="titulo"
+                    class="form-control"
+                    placeholder="Ej: Rediseño de app bancaria"
+                    maxlength="150"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="descripcion" class="form-label">
+                    Descripción <span class="text-danger">*</span>
+                  </label>
+                  <textarea
+                    id="descripcion"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Describe tu proyecto, las tecnologías usadas, el objetivo..."
+                  ></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="categoria" class="form-label">
+                    Categoría <span class="text-danger">*</span>
+                  </label>
+                  <select id="categoria" class="form-control">
+                    <option value="">Selecciona una categoría</option>
+                    <option value="Diseño UI/UX">Diseño UI/UX</option>
+                    <option value="Desarrollo Web">Desarrollo Web</option>
+                    <option value="Ilustración">Ilustración</option>
+                    <option value="Fotografía">Fotografía</option>
+                    <option value="Motion Graphics">Motion Graphics</option>
+                    <option value="Branding">Branding</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+
+                <div class="mb-4">
+                  <label for="imgUrl" class="form-label">
+                    Imagen del proyecto
+                    <small class="text-muted fw-normal">(URL — opcional)</small>
+                  </label>
+                  <input
+                    type="url"
+                    id="imgUrl"
+                    class="form-control"
+                    placeholder="https://ejemplo.com/imagen.jpg"
+                  />
+                  <img id="imgPreview" src="" alt="Vista previa" />
+                </div>
+
+                <!-- BOTÓN DE GUARDADO — Funcionalidad 3 -->
+                <button type="submit" class="btn-main w-100">
+                  Guardar proyecto
+                </button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         FUNCIONALIDAD 4 — VER PROYECTOS
+    ================================================= -->
+    <section class="section-projects" id="mis-proyectos">
+      <div class="container">
+
+        <div class="projects-header">
+          <p class="section-title mb-0">Mis proyectos</p>
+          <span class="projects-count" id="projectsCount">0 proyectos</span>
+        </div>
+
+        <!-- Grid dinámico poblado por JS -->
+        <div class="row" id="projectsGrid"></div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>&copy; 2026 ReviewLab - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast-reviewlab" id="toastMsg"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // ================================================
+      //  portafolio.js — ReviewLab
+      //  Bloque 2: Funcionalidades 3 y 4
+      //  Patrón: Vanilla JS + localStorage
+      // ================================================
+
+      var STORAGE_KEY = "rl_projects";
+
+      var form          = document.getElementById("projectForm");
+      var projectsGrid  = document.getElementById("projectsGrid");
+      var projectsCount = document.getElementById("projectsCount");
+      var imgUrlInput   = document.getElementById("imgUrl");
+      var imgPreview    = document.getElementById("imgPreview");
+
+      // ---- FUNCIONALIDAD 3: Crear y guardar proyecto ----
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var titulo      = document.getElementById("titulo").value.trim();
+        var descripcion = document.getElementById("descripcion").value.trim();
+        var imagen      = imgUrlInput.value.trim();
+        var categoria   = document.getElementById("categoria").value;
+
+        if (!titulo || !descripcion || !categoria) {
+          showToast("Completa todos los campos obligatorios");
+          return;
+        }
+
+        var proyecto = {
+          id:             Date.now(),
+          titulo:         titulo,
+          descripcion:    descripcion,
+          imagen_portada: imagen,
+          categoria:      categoria,
+          fecha_creacion: new Date().toISOString()
+        };
+
+        // Guardar en localStorage
+        var lista = getProjects();
+        lista.push(proyecto);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+
+        // Limpiar formulario y preview
+        form.reset();
+        imgPreview.src = "";
+        imgPreview.classList.remove("visible");
+
+        // Actualizar lista visible
+        renderProjects();
+        showToast("Proyecto guardado correctamente");
+        document.getElementById("mis-proyectos").scrollIntoView({ behavior: "smooth" });
+      });
+
+      // ---- FUNCIONALIDAD 4: Ver proyectos (render dinámico) ----
+
+      function getProjects() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function renderProjects() {
+        var projects = getProjects();
+
+        projectsCount.textContent = projects.length === 1
+          ? "1 proyecto"
+          : projects.length + " proyectos";
+
+        if (projects.length === 0) {
+          projectsGrid.innerHTML =
+            '<div class="col-12">' +
+              '<div class="empty-state">' +
+                '<span class="empty-state__icon">&#128194;</span>' +
+                '<p class="empty-state__text">Aún no tienes proyectos.<br>¡Crea tu primero arriba!</p>' +
+              '</div>' +
+            '</div>';
+          return;
+        }
+
+        var sorted = projects.slice().reverse();
+        var html = "";
+        for (var i = 0; i < sorted.length; i++) {
+          html += buildCard(sorted[i]);
+        }
+        projectsGrid.innerHTML = html;
+      }
+
+      function buildCard(p) {
+        var fecha = new Date(p.fecha_creacion).toLocaleDateString("es-CO", {
+          year: "numeric", month: "short", day: "numeric"
+        });
+
+        var imgHtml = p.imagen_portada
+          ? '<img src="' + esc(p.imagen_portada) + '" alt="' + esc(p.titulo) + '" class="pimg">'
+          : '<span class="project-card__placeholder">&#128444;</span>';
+
+        return (
+          '<div class="col-sm-6 col-lg-4 mb-4">' +
+            '<div class="project-card">' +
+              '<div class="project-card__img">' + imgHtml + '</div>' +
+              '<div class="project-card__body">' +
+                '<span class="project-card__category">' + esc(p.categoria) + '</span>' +
+                '<h5 class="project-card__title">' + esc(p.titulo) + '</h5>' +
+                '<p class="project-card__desc">' + esc(p.descripcion) + '</p>' +
+                '<div class="project-card__footer">' +
+                  '<span class="project-card__date">' + fecha + '</span>' +
+                  '<button class="project-card__delete" data-id="' + p.id + '">Eliminar</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>'
+        );
+      }
+
+      // Delegación: eliminar
+      projectsGrid.addEventListener("click", function (e) {
+        var btn = e.target.closest(".project-card__delete");
+        if (!btn) return;
+        if (!confirm("¿Eliminar este proyecto?")) return;
+        var id = parseInt(btn.getAttribute("data-id"), 10);
+        var lista = getProjects().filter(function (p) { return p.id !== id; });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+        renderProjects();
+        showToast("Proyecto eliminado");
+      });
+
+      // Delegación: imagen rota (error no hace bubble, usamos capture)
+      projectsGrid.addEventListener("error", function (e) {
+        if (e.target.classList.contains("pimg")) {
+          e.target.parentElement.innerHTML = '<span class="project-card__placeholder">&#128444;</span>';
+        }
+      }, true);
+
+      // Preview en tiempo real
+      imgUrlInput.addEventListener("input", function () {
+        var url = this.value.trim();
+        if (url) {
+          imgPreview.src = url;
+          imgPreview.classList.add("visible");
+          imgPreview.onerror = function () { imgPreview.classList.remove("visible"); };
+          imgPreview.onload  = function () { imgPreview.classList.add("visible"); };
+        } else {
+          imgPreview.src = "";
+          imgPreview.classList.remove("visible");
+        }
+      });
+
+      // Escape XSS
+      function esc(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      // Toast
+      function showToast(msg) {
+        var t = document.getElementById("toastMsg");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(function () { t.classList.remove("show"); }, 3000);
+      }
+
+      // Init
+      renderProjects();
+    </script>
+
+  </body>
+</html>
