@@ -12,7 +12,7 @@ function loadComments() {
     .reverse()
     .forEach((c) => {
       const div = document.createElement("div");
-      div.classList.add("mb-3", "p-3", "bg-light", "text-dark", "rounded");
+      div.classList.add("comment");
 
       div.innerHTML = `
         <div class="d-flex justify-content-between">
@@ -27,14 +27,12 @@ function loadComments() {
     });
 }
 
-
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const user = document.getElementById("user").value.trim();
   const rating = document.getElementById("rating").value;
   const comment = document.getElementById("comment").value.trim();
-
 
   if (!user || !rating || !comment) {
     alert("Completa todos los campos");
